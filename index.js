@@ -21,10 +21,11 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'wejeee_productos', // Creará esta carpeta en tu Cloudinary
+    folder: 'wejeee_productos',
     allowed_formats: ['jpg', 'png', 'jpeg', 'webp']
   },
 });
+// CAMBIO IMPORTANTE: Ahora aceptamos un array de imágenes llamado 'images' (máximo 4)
 const upload = multer({ storage: storage });
 
 // MIDDLEWARE
@@ -51,20 +52,33 @@ app.get('/api/products', async (req, res) => {
     res.json(products);
 });
 
-// 3. Crear Producto (AHORA CON CLOUDINARY)
-app.post('/api/products', upload.single('image'), async (req, res) => {
+// 3. Crear Producto (AHORA CON HASTA 4 IMÁGENES Y MÁS DETALLES)
+// Usamos upload.array('images', 4) para permitir múltiples fotos
+app.post('/api/products', upload.array('images', 4), async (req, res) => {
     try {
-        const { name, price, category } = req.body;
+        const { name, price, category, description, gender, sizes } = req.body;
 
-        // req.file.path ahora contiene la URL oficial de Cloudinary en internet
-        const imageUrl = req.file ? req.file.path : 'https://via.placeholder.com/300';
+        // Extraer URLs de las imágenes subidas a Cloudinary
+        const imageUrls = req.files ? req.files.map(file => file.path) : [];
+
+        // Asignamos las imágenes en orden. Si no suben la 2, 3 o 4, quedan en null.
+        const image1 = imageUrls[0] || 'https://via.placeholder.com/300';
+        const image2 = imageUrls[1] || null;
+        const image3 = imageUrls[2] || null;
+        const image4 = imageUrls[3] || null;
 
         const newProduct = await prisma.product.create({
             data: {
                 name,
                 price: Number(price),
                 category,
-                image: imageUrl
+                image: image1,
+                image2: image2,
+                image3: image3,
+                image4: image4,
+                description: description || null,
+                gender: gender || null,
+                sizes: sizes || null,
             }
         });
         res.json(newProduct);

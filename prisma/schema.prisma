@@ -13,11 +13,18 @@ model Product {
   price       Decimal  @db.Decimal(10, 2)
   category    String
   image       String
-  description String?
+  description String?  // Dejamos solo un campo de descripción
   stock       Int      @default(10)
+
+  // --- NUEVOS CAMPOS OPCIONALES ---
+  image2      String?  // Foto extra 1
+  image3      String?  // Foto extra 2
+  image4      String?  // Foto extra 3
+  gender      String?  // Hombre, Mujer, Unisex
+  sizes       String?  // Tallas (ej: "S, M, L")
+
   createdAt   DateTime @default(now())
 }
-// ... (El modelo Product déjalo igual)
 
 model Admin {
   id       Int    @id @default(autoincrement())
