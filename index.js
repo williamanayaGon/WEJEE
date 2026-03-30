@@ -29,7 +29,16 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 // MIDDLEWARE
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://wejeee.com',
+    'https://www.wejeee.com',
+    'https://wejee-frontend.vercel.app',
+    'http://localhost:5173' // Para tus pruebas locales
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 app.use(express.json());
 
 // --- RUTAS ---

@@ -11,19 +11,19 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Backend para Wejeee Store con Prisma y Cloudinary",
   "dependencies": {
+    "@prisma/client": "^5.10.2",
     "cloudinary": "^1.41.3",
     "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^4.0.0",
-    "nodemon": "^3.1.11",
     "pg": "^8.18.0"
   },
   "devDependencies": {
-    "@prisma/client": "^5.10.2",
+    "nodemon": "^3.1.11",
     "prisma": "^5.10.2"
   }
 }
